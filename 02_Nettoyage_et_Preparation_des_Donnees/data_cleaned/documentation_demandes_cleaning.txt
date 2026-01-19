@@ -1,0 +1,15 @@
+--- Documentation du Nettoyage de 'demande_services_public.csv' ---
+Date du nettoyage: 2026-01-18 14:02:11
+Dimensions initiales du DataFrame: (600, 16)
+Converti 'date_demande' de object à datetime.
+Aucun doublon trouvé sur 'demande_id'.
+Traitement de 'motif_demande': 0 manquants avant. Imputés par 'Non Applicable' si statut est Acceptée/En cours, ou par 'Non Spécifié (Rejet)' si statut est Rejetée et motif manquant.
+Traitement de 'quartier': 0 manquants avant. Imputés par 'Inconnu'.
+Traitement de 'age_demandeur': 0 manquants avant. Imputés par la médiane (53.0). Converti en entier.
+Traitement de 'sexe_demandeur': 0 manquants avant. Imputés par le mode (M).
+Harmonisation de la capitalisation et suppression des espaces pour les colonnes catégorielles pertinentes.
+Clipé 'taux_rejet' pour s'assurer qu'il est entre 0 et 1.
+Ajout des colonnes 'annee_demande', 'mois_demande', 'jour_semaine_demande' à partir de 'date_demande'.
+
+Dimensions finales du DataFrame nettoyé: (600, 19)
+Dataset nettoyé sauvegardé à: ../../02_Nettoyage_et_Preparation_des_Donnees/data_cleaned/demande_services_public_cleaned.csv

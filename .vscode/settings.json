@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./02_Nettoyage_et_Preparation_des_Donnees"
+    ]
+}
