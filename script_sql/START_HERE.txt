@@ -1,0 +1,60 @@
+🚀 DÉMARRAGE ULTRA-RAPIDE
+========================
+
+⏱️ 5 MINUTES POUR AVOIR UNE BD COMPLÈTE
+
+PRÉ-REQUIS:
+  ✓ PostgreSQL installé
+  ✓ Terminal ouvert dans: d:/public_services_optimization_togo/script_sql
+  ✓ Commande psql disponible
+
+DÉMARRER:
+========
+
+# Étape 1: Créer tout (1 minute)
+psql -U postgres -f 00_create_all.sql
+
+# Étape 2: Charger données RAW (1 minute)
+psql -U postgres -d service_public_db -f 03_load_raw_data.sql
+
+# Étape 3: Transformer en DW (1 minute)
+psql -U postgres -d service_public_db -f 04_transform_to_dw.sql
+
+# Étape 4: Créer vues (1 minute)
+psql -U postgres -d service_public_db -f 05_create_views.sql
+
+# Étape 5: Vérifier (30 secondes)
+psql -U postgres -d service_public_db -c "SELECT * FROM dw.v_tableau_bord_principal;"
+
+✅ FIN! Vous avez une base Data Warehouse complète!
+
+VOIR LES DONNÉES:
+================
+
+Top 10 communes:
+  psql -U postgres -d service_public_db -c "SELECT * FROM dw.v_analyse_geographique LIMIT 10;"
+
+Résumé par région:
+  psql -U postgres -d service_public_db -c "SELECT * FROM dw.v_resume_region;"
+
+Performance centres:
+  psql -U postgres -d service_public_db -c "SELECT * FROM dw.v_performance_centres LIMIT 5;"
+
+SE CONNECTER:
+=============
+
+psql -U postgres -d service_public_db
+
+Puis explorer:
+  \dt dw.*               # Voir tables DW
+  \dv dw.*               # Voir vues
+  SELECT * FROM dw.v_resume_region;
+
+DOCUMENTATION:
+==============
+
+  CHECKLIST.md           ← Pour vérifications détaillées
+  GUIDE_COMPLET.md       ← Pour explorer en profondeur
+  RESUME_EXECUTIF.txt    ← Pour comprendre l'architecture
+
+✨ C'est parti! Bonne analyse! 🎉

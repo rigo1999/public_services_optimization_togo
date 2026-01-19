@@ -1,87 +1,52 @@
-# public_services_optimization_togo
+# 🇸🇳 Optimisation des Services Publics au Togo
 
-## Projet d'Optimisation du Réseau de Services Publics au Togo
+Projet d'analyse de données et dashboard interactif pour l'optimisation du réseau de délivrance des documents officiels (CNI, Passeports, Actes de Naissance).
 
-Ce dépôt contient l'ensemble des travaux réalisés dans le cadre du cas d'étude visant à optimiser le réseau de services publics pour la délivrance de documents officiels au Togo. L'objectif principal est d'analyser les données disponibles pour proposer des solutions d'amélioration des délais de traitement, de l'organisation territoriale et de l'expérience usager.
+## 🚀 Structure du Projet
 
-## Table des Matières
+Le repository est organisé selon les étapes clés du projet Data Analyst :
 
-1.  [Contexte](#contexte)
-2.  [Objectifs](#objectifs)
-3.  [Structure du Dépôt](#structure-du-dépôt)
-4.  [Données](#données)
-5.  [Livrables Clés](#livrables-clés)
-6.  [Comment Exécuter le Projet](#comment-exécuter-le-projet)
-7.  [Outils et Technologies](#outils-et-technologies)
-8.  [Auteur](#auteur)
+- **`01_Exploration_des_Donnees_EDA/`** : Analyses exploratoires (Jupyter Notebooks) pour comprendre les données sources.
+- **`02_Nettoyage_et_Preparation_des_Donnees/`** : Scripts de nettoyage et données nettoyées au format CSV.
+- **`03_KPI_et_Dashboard/`** : Définition théorique et technique des 8 Key Performance Indicators.
+- **`04_Dashboard/`** : Application Streamlit (Python) pour la visualisation des KPI.
+- **`05_Restitution_et_Storytelling/`** : Rapport de synthèse et présentation pour les décideurs.
+- **`script_sql/`** : Pipeline de données complet (DDL, Chargement, Transformation Star Schema).
 
-## Contexte
+## 🛠️ Installation et Utilisation
 
-Le gouvernement togolais fait face à une augmentation des demandes de duplicata de documents officiels (CNI, passeports, actes de naissance). Ce projet s'inscrit dans une démarche d'optimisation visant à mieux organiser les services, réduire les délais et améliorer la satisfaction des usagers.
+### 1. Prérequis
+- Docker et Docker Compose (pour la base PostgreSQL)
+- Python 3.10+
+- `pip install -r 04_Dashboard/requirements_dashboard.txt`
 
-## Objectifs
+### 2. Base de données
+Le projet utilise une base PostgreSQL dans un container Docker.
+Le port exposé est le **5434**.
 
-*   **Exploration et Compréhension des Données :** Analyser des jeux de données complexes et hétérogènes.
-*   **Nettoyage et Préparation des Données :** Assurer la qualité, la cohérence et la fiabilité des données.
-*   **Définition et Calcul des KPI :** Proposer des indicateurs de performance pertinents pour le pilotage du service public.
-*   **Réalisation d'un Dashboard Interactif :** Traduire les analyses et les KPI en un outil d'aide à la décision.
-*   **Restitution et Storytelling :** Présenter les résultats et les recommandations de manière claire et convaincante à des décideurs non techniques.
+### 3. Pipeline de données
+Pour initialiser le Data Warehouse et charger les données :
+```bash
+python script_sql/load_clean_data_full.py
+```
+Ce script :
+1. Crée les schémas `raw` et `dw`.
+2. Charge les fichiers CSV nettoyés dans `raw`.
+3. Transforme les données vers le schéma en étoile (`dw`).
+4. Crée les vues analytiques optimisées.
 
-## Structure du Dépôt
+### 4. Lancer le Dashboard
+```bash
+cd 04_Dashboard
+streamlit run app_streamlit.py
+```
 
-Ce dépôt est organisé de manière logique pour suivre les différentes étapes du projet :
+## 📊 KPI Principaux
+Les indicateurs clés suivis dans le dashboard incluent :
+1. **DMT (Délai Moyen de Traitement)** : Cible < 5 jours.
+2. **Taux d'Absorption** : Capacité à traiter le flux entrant.
+3. **Couverture Territoriale** : Présence régionale et équité d'accès.
+4. **Taux de Rejet** : Indicateur de qualité des dossiers.
 
-*   `01_Exploration_des_Donnees_EDA/`: Scripts et visualisations de l'analyse exploratoire des données.
-*   `02_Nettoyage_et_Preparation_des_Donnees/`: Scripts de nettoyage et le dataset final préparé.
-*   `03_Definition_et_Calcul_des_KPI/`: Tableau des KPI définis et les requêtes SQL associées.
-*   `04_Dashboard/`: Fichiers source du dashboard interactif et captures d'écran.
-*   `05_Restitution_et_Storytelling/`: Présentation PowerPoint et le rapport de synthèse.
-*   `data_raw/`: Les jeux de données brutes fournis pour l'analyse.
-
-## Données
-
-Les données utilisées pour ce projet comprennent (mais ne sont pas limitées à) :
-
-*   Demandes de documents par commune et par centre
-*   Données démographiques et socio-économiques
-*   Localisation et capacité des centres de service
-*   Données temporelles et opérationnelles (délais, rejets, volumes)
-
-*(Note: Les données brutes sont situées dans le dossier `data_raw/`)*
-
-## Livrables Clés
-
-*   **Notebooks/Scripts d'EDA commentés**
-*   **Dataset propre et exploitable**
-*   **Tableau des KPI** avec règles de calcul et requêtes SQL
-*   **Dashboard interactif**
-*   **Présentation PowerPoint** de restitution
-*   **Rapport de synthèse**
-
-## Comment Exécuter le Projet
-
-1.  **Cloner le dépôt :**
-    `git clone https://github.com/rigo1999/public_services_optimization_togo.git`
-    `cd public_services_optimization_togo`
-
-2.  **Installer les dépendances :**
-    `pip install -r requirements.txt` *(Vous devrez créer ce fichier `requirements.txt`.)*
-
-3.  **Exécuter les scripts d'EDA et de nettoyage :**
-    Se référer aux notebooks/scripts dans `01_Exploration_des_Donnees_EDA/` et `02_Nettoyage_et_Preparation_des_Donnees/`.
-
-4.  **Lancer le Dashboard :**
-    Si un dashboard web est développé (Streamlit, Dash), suivez les instructions spécifiques dans `04_Dashboard/dashboard_files/`.
-
-## Outils et Technologies
-
-*   **Langages :** Python, SQL
-*   **Bibliothèques Python :** Pandas, NumPy, Matplotlib, Seaborn, Plotly, etc.
-*   **Outils de Dashboarding :**  Streamlit 
-*   **Versionnement :** Git
-
-## Auteur
-KEGDIGOMA Ditoma 
-Mail : ditoma.kegdigoma@utbm.fr
-
----
+## 👥 Auteur
+Data Analyst - Projet Togo Datalab
