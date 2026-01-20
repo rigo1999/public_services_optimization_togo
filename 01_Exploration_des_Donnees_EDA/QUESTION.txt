@@ -1,0 +1,24 @@
+Quelques questions sur le dataset:
+
+1-Mes données sont elles pertinentes ?
+2-Mes données sont elles completes ?
+3-Mes données sont elles cohérentes ?
+4-Quel est le nombre total de demandes traitées sur le territoire ?
+5-Quel est le nombre total de demandes rejetées ?
+6-Quel est le nombre total de demandes validées ?
+7-Quel est le nombre total de demandes en attente ?
+8-Quel est le nombre total de demandes finalisées ?
+9-Quel est le nombre total de demandes annulées ?
+10-Quel est le nombre de demandes par centre ?
+11-Quel est le nombre de demandes par type de document ?
+12-Quel est le nombre de demandes par territoire ?
+13-Quel est le nombre de demandes par prefecture ?
+14-Quel est le nombre de demandes par region ?
+15-Quel est le nombre de demandes par type de document ?
+16-Quel est la capacité des centres ?
+17-Quel est le nombre de demandes par centre et la capacité des centres ?
+18- Y a t il des centres qui sont saturés ?
+19- Combien de centre principales et secondaires y a t il par region ?
+20- Quel est le nombre de demandes par centre et le nombre de demandes par type de document ?
+21- Quel est le nombre de demandes par centre et le nombre de demandes par territoire par année / mois ?
+
