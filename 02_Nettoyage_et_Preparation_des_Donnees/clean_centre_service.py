@@ -19,17 +19,23 @@ def clean_centre_service(df):
     df_clean['annee_ouverture'] = df_clean['date_ouverture'].dt.year
     df_clean['mois_ouverture'] = df_clean['date_ouverture'].dt.month
 
-    # --- 3. Harmonisation des colonnes textuelles (Optionnel mais recommandé) ---
-    # Mise en majuscule de la première lettre pour les localisations
+    # --- 3. Harmonisation des colonnes textuelles ---
+    def fix_encoding(text):
+        if not isinstance(text, str): return text
+        text = text.replace(chr(0x01F8), 'é')
+        text = text.replace('\ufffd', 'é')
+        return text
+
     cols_loc = ['region', 'prefecture', 'commune', 'quartier', 'nom_centre']
     for col in cols_loc:
         if col in df_clean.columns:
-            df_clean[col] = df_clean[col].astype(str).str.strip().str.title()
+            df_clean[col] = df_clean[col].apply(fix_encoding)
+            df_clean[col] = df_clean[col].astype(str).str.strip().str.replace(r'\s+', ' ', regex=True).str.title()
 
     # --- 4. Nettoyage des colonnes catégorielles ---
-    # S'assurer que les statuts et types sont bien formatés
     for col in ['type_centre', 'statut_centre', 'equipement_numerique']:
         if col in df_clean.columns:
+            df_clean[col] = df_clean[col].apply(fix_encoding)
             df_clean[col] = df_clean[col].astype(str).str.strip().str.capitalize()
 
     return df_clean

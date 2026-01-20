@@ -3,6 +3,7 @@ import sqlalchemy as sa
 from sqlalchemy import create_engine, text
 import os
 from pathlib import Path
+import re
 
 # Configuration
 DB_URL = "postgresql://postgres:postgres@127.0.0.1:5434/service_public_db"
@@ -10,43 +11,49 @@ DATA_CLEANED_DIR = Path("d:/public_services_optimization_togo/02_Nettoyage_et_Pr
 SQL_SCRIPTS_DIR = Path("d:/public_services_optimization_togo/script_sql")
 
 def run_sql_script(engine, script_path):
-    print(f"📖 Exécution du script : {script_path.name}...")
+    print(f"Running script: {script_path.name}...")
     with open(script_path, 'r', encoding='utf-8') as f:
         content = f.read()
-        lines = content.split('\n')
-        sql_lines = [l for l in lines if not l.strip().startswith('\\')]
-        clean_sql = '\n'.join(sql_lines)
         
-        commands = [c.strip() for c in clean_sql.split(';') if c.strip()]
+        # Remove SQL comments and split by semicolon
+        content = re.sub(r'--.*', '', content)
+        content = re.sub(r'/\*.*?\*/', '', content, flags=re.DOTALL)
+        
+        commands = [c.strip() for c in content.split(';') if c.strip()]
         
         for cmd in commands:
-            # On utilise une nouvelle transaction pour chaque commande pour éviter le blocage InFailedSqlTransaction
+            # Skip psql-specific commands like \c or \echo
+            if cmd.startswith('\\'):
+                continue
+                
             with engine.begin() as conn:
                 try:
                     conn.execute(text(cmd))
                 except Exception as e:
-                    print(f"⚠️ Erreur SQL dans {script_path.name}: {str(e)[:150]}...")
+                    # Avoid emoji or special chars in error print
+                    safe_error = str(e).encode('ascii', errors='replace').decode('ascii')
+                    print(f"SQL Error in {script_path.name}: {safe_error[:200]}...")
 
 def main():
-    print("🚀 Chargement des données Cleaned et Synchronisation DW...")
+    print("Loading Cleaned data and Syncing DW...")
     
     try:
         engine = create_engine(DB_URL)
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
     except Exception as e:
-        print(f"❌ Erreur de connexion : {e}")
+        print(f"Connection Error: {e}")
         return
 
-    # 1. Reset et Recréation des tables
-    print("\n--- ÉTAPE 1 : Reset et Recréation des Schémas ---")
+    # 1. Reset
+    print("\n--- STEP 1: Reset Schemas ---")
     with engine.begin() as conn:
         conn.execute(text("DROP SCHEMA IF EXISTS raw CASCADE; DROP SCHEMA IF EXISTS dw CASCADE;"))
         conn.execute(text("CREATE SCHEMA raw; CREATE SCHEMA dw;"))
     
     run_sql_script(engine, SQL_SCRIPTS_DIR / "02_create_tables.sql")
 
-    # 2. Chargement des CSV dans le schéma RAW
+    # 2. Load CSVs
     mapping = {
         'details_communes_cleaned.csv': 'communes',
         'centres_service_cleaned.csv': 'centres_service',
@@ -54,47 +61,36 @@ def main():
         'donnees_socioeconomiques_cleaned.csv': 'donnees_socioeconomiques'
     }
 
-    print("\n--- ÉTAPE 2 : Insertion dans le schéma RAW ---")
+    print("\n--- STEP 2: Insert into RAW ---")
     for csv_name, table_name in mapping.items():
         csv_path = DATA_CLEANED_DIR / csv_name
         if csv_path.exists():
-            print(f"📥 {csv_name} -> raw.{table_name}")
+            print(f"Loading {csv_name} -> raw.{table_name}")
             df = pd.read_csv(csv_path, encoding='utf-8')
             
-            # Normalisation des headers
+            # Normalization
             df.columns = [c.replace('é', 'e').replace(' ', '_').lower() for c in df.columns]
-            
-            # Corrections spécifiques
-            if table_name == 'donnees_socioeconomiques':
-                if 'taux_alphabetisation' not in df.columns:
-                    for col in df.columns:
-                        if 'alphab' in col:
-                            df.rename(columns={col: 'taux_alphabetisation'}, inplace=True)
             
             if 'date_demande' in df.columns:
                 df['date_demande'] = pd.to_datetime(df['date_demande']).dt.date
             if 'date_ouverture' in df.columns:
                 df['date_ouverture'] = pd.to_datetime(df['date_ouverture']).dt.date
             
-            # On ne garde que les colonnes qui existent dans la table cible (on vérifie via le DDL)
-            # En fait, pandas va lever une erreur si on essaie d'insérer des colonnes en trop.
-            # On va juste filtrer pour être sûr.
-            
             df.to_sql(table_name, engine, schema='raw', if_exists='append', index=False)
-            print(f"   ✅ {len(df)} lignes insérées.")
+            print(f"   Rows inserted: {len(df)}")
         else:
-            print(f"⚠️ Fichier manquant : {csv_name}")
+            print(f"Missing file: {csv_name}")
 
-    # 3. Transformation vers le Data Warehouse (DW)
-    print("\n--- ÉTAPE 3 : Transformation RAW -> DW ---")
+    # 3. Transform
+    print("\n--- STEP 3: Transform RAW -> DW ---")
     run_sql_script(engine, SQL_SCRIPTS_DIR / "04_transform_to_dw.sql")
 
-    # 4. Création des Vues
-    print("\n--- ÉTAPE 4 : Création des vues analytiques ---")
+    # 4. Views
+    print("\n--- STEP 4: Create Views ---")
     run_sql_script(engine, SQL_SCRIPTS_DIR / "05_create_views.sql")
 
-    # 5. Vérification
-    print("\n--- ÉTAPE 5 : Rapport final ---")
+    # 5. Verification
+    print("\n--- STEP 5: Final Report ---")
     with engine.connect() as conn:
         tables = [
             'dw.dim_territoire', 
@@ -107,11 +103,11 @@ def main():
         for t in tables:
             try:
                 res = conn.execute(text(f"SELECT COUNT(*) FROM {t}")).fetchone()
-                print(f"📊 {t:30} : {res[0]} lignes")
+                print(f" {t:30} : {res[0]} rows")
             except Exception as e:
-                print(f"📊 {t:30} : ERREUR ({str(e)[:50]})")
+                print(f" {t:30} : ERROR")
 
-    print("\n✨ Data Warehouse opérationnel !")
+    print("\nData Warehouse Operational!")
 
 if __name__ == "__main__":
     main()

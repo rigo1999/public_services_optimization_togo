@@ -2,9 +2,9 @@
 import pandas as pd
 import numpy as np
 
-def clean_demandes_data(input_path='../../data_raw/demande_services_public.csv', 
-                         output_path = None,
-                         documentation_path='../data_cleaned/documentation_demandes_cleaning.txt'):
+def clean_demandes_data(input_path='d:/public_services_optimization_togo/data_raw/demandes_service_public.csv', 
+                         output_path = 'd:/public_services_optimization_togo/02_Nettoyage_et_Preparation_des_Donnees/data_cleaned/demande_services_public_cleaned.csv',
+                         documentation_path='d:/public_services_optimization_togo/02_Nettoyage_et_Preparation_des_Donnees/data_cleaned/documentation_demandes_cleaning.txt'):
     """
     Nettoie et prépare le jeu de données des demandes de services publics.
 
@@ -87,17 +87,52 @@ def clean_demandes_data(input_path='../../data_raw/demande_services_public.csv',
     print(f"Traitement de 'sexe_demandeur': {missing_sexe_before} manquants avant. Imputés par le mode ({mode_sexe}).")
 
     # --- 5. Correction des incohérences et harmonisation des formats ---
-    # Par exemple, harmoniser les capitalisations pour les colonnes catégorielles
-    for col in ['region', 'prefecture', 'commune', 'quartier', 'type_document', 
-                'categorie_document', 'motif_demande', 'statut_demande', 'canal_demande', 'sexe_demandeur']:
-        if col in df.columns:
-            # Remplacer les espaces multiples, les espaces en début/fin et mettre en Title Case
-            df[col] = df[col].astype(str).str.strip().str.replace(r'\s+', ' ', regex=True).str.title()
-    documentation.append("Harmonisation de la capitalisation et suppression des espaces pour les colonnes catégorielles pertinentes.\n")
-    print("Harmonisation de la capitalisation et suppression des espaces pour les colonnes catégorielles pertinentes.")
+    # --- 5. Correction des incohérences et harmonisation des formats ---
+    def fix_encoding(text):
+        if not isinstance(text, str): return text
+        # Mapping of mangled characters
+        # 0x01F8 is 'Ǹ' which replaces 'é'
+        text = text.replace(chr(0x01F8), 'é')
+        # Common mangled 'é' in other encodings
+        text = text.replace('\ufffd', 'é') 
+        return text
 
-    # Assurer que les taux sont bien entre 0 et 1 (si besoin, ici déjà le cas d'après describe)
-    df['taux_rejet'] = df['taux_rejet'].clip(lower=0, upper=1)
+    # Harmonisation des statuts (Spec: Validée, Rejetée, En Attente)
+    status_mapping = {
+        'Traitee': 'Validée',
+        'Traitée': 'Validée',
+        'Rejetée': 'Rejetée',
+        'Rejetée': 'Rejetée',
+        'En Cours': 'En Attente',
+        'En cours': 'En Attente',
+        'Acceptée': 'Validée'
+    }
+
+    cols_category = ['region', 'prefecture', 'commune', 'quartier', 'type_document', 
+                'categorie_document', 'motif_demande', 'statut_demande', 'canal_demande', 'sexe_demandeur']
+    
+    for col in cols_category:
+        if col in df.columns:
+            # 1. Strip and fix mangled chars
+            df[col] = df[col].astype(str).str.strip().apply(fix_encoding)
+            
+            # 2. Normalize spaces
+            df[col] = df[col].str.replace(r'\s+', ' ', regex=True)
+            
+            # 3. Handle special status mapping
+            if col == 'statut_demande':
+                # Exact match first, then partial if needed
+                df[col] = df[col].replace(status_mapping)
+                # Ensure no weird characters left
+                df[col] = df[col].replace('Rejetée', 'Rejetée').replace('Validée', 'Validée')
+            else:
+                df[col] = df[col].str.title()
+
+    documentation.append("Harmonisation des statuts et correction des erreurs d'encodage (Ǹ -> é, etc.).\n")
+    print("Harmonisation des statuts et correction des erreurs d'encodage.")
+
+    # Assurer que les taux sont bien entre 0 et 1
+    df['taux_rejet'] = pd.to_numeric(df['taux_rejet'], errors='coerce').fillna(0).clip(0, 1)
     documentation.append("Clipé 'taux_rejet' pour s'assurer qu'il est entre 0 et 1.\n")
 
     # --- 6. Ajout de colonnes de temps (Année, Mois, Jour de la semaine) ---
@@ -119,7 +154,7 @@ def clean_demandes_data(input_path='../../data_raw/demande_services_public.csv',
     documentation.append(f"Dataset nettoyé sauvegardé à: {output_path}\n")
     print(f"Dataset nettoyé sauvegardé à: {output_path}")
 
-    with open(documentation_path, 'w') as f:
+    with open(documentation_path, 'w', encoding='utf-8') as f:
         f.writelines(documentation)
     print(f"Documentation des choix de nettoyage sauvegardée à: {documentation_path}")
 
