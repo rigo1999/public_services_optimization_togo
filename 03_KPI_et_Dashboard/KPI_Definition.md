@@ -4,7 +4,7 @@ Ce document définit le cadre complet des indicateurs clés de performance (KPI)
 
 ---
 
-## 📊 Synthèse des KPI
+##  Synthèse des KPI
 
 **Total KPI définis:** 8 indicateurs
 
@@ -21,7 +21,7 @@ Ce document définit le cadre complet des indicateurs clés de performance (KPI)
 
 ---
 
-## 📋 Détail des KPI
+##  Détail des KPI
 
 ### **CATÉGORIE 1: PERFORMANCE OPÉRATIONNELLE**
 
@@ -538,7 +538,7 @@ ORDER BY taux_saturation_pct DESC;
 
 ---
 
-## 🎯 Résumé et Recommandations
+##  Résumé et Recommandations
 
 ### Tableau Synthétique: Cibles et Seuils
 
@@ -562,7 +562,7 @@ ORDER BY taux_saturation_pct DESC;
 
 ---
 
-## 📈 Prochaines Étapes
+##  Prochaines Étapes
 
 1. **Validation des Données:** Exécuter les 8 requêtes SQL sur la base de données PostgreSQL pour valider la cohérence des données
 2. **Implémentation Dashboard:** Créer visualisations interactives (Streamlit, Superset ou Power BI) avec filtres dynamiques
