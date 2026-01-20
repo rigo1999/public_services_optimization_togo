@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation Stratégique - Services Publics Togo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #006a4e; /* Togo Green */
+            --secondary: #ffce00; /* Togo Yellow */
+            --dark: #1a1a1a;
+            --light: #f4f7f6;
+            --accent: #d21034; /* Togo Red */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: var(--dark); color: white; overflow-x: hidden; }
+
+        .slide {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            scroll-snap-align: start;
+            position: relative;
+            page-break-after: always;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .content {
+            z-index: 10;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        h1 { font-size: 4rem; font-weight: 800; color: var(--secondary); margin-bottom: 20px; text-transform: uppercase; line-height: 1; }
+        h2 { font-size: 2.5rem; color: var(--secondary); margin-bottom: 30px; border-left: 8px solid var(--primary); padding-left: 20px; }
+        p { font-size: 1.4rem; line-height: 1.6; margin-bottom: 20px; color: #ccc; }
+        ul { list-style: none; margin-top: 20px; }
+        li { font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; }
+        li::before { content: "▹"; color: var(--secondary); margin-right: 15px; font-weight: bold; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border-top: 4px solid var(--primary); }
+        .kpi-box { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .kpi-item { text-align: center; padding: 20px; background: rgba(0,106,78,0.2); border-radius: 15px; }
+        .kpi-value { font-size: 2.2rem; font-weight: 800; color: var(--secondary); }
+        .kpi-label { font-size: 0.9rem; text-transform: uppercase; color: #aaa; }
+
+        .viz-img { width: 100%; border-radius: 15px; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .footer { position: absolute; bottom: 30px; width: calc(100% - 120px); display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; }
+
+        /* Print styles to force PDF quality */
+        @media print {
+            .slide { height: 100vh; overflow: hidden; background: white !important; color: black !important; }
+            h1, h2 { color: var(--primary) !important; border-left-color: var(--accent) !important; }
+            p, li { color: #333 !important; }
+            .background-image { display: none; }
+            .card, .kpi-item { border: 1px solid #ddd !important; background: #f9f9f9 !important; color: black !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Cover -->
+    <section class="slide">
+        <img src="../togo_presentation_cover_1768868268827.png" class="background-image" style="opacity: 0.8;">
+        <div class="content" style="text-align: center;">
+            <div style="background: rgba(0,0,0,0.6); padding: 50px; border-radius: 30px; display: inline-block;">
+                <h1 style="font-size: 3.5rem;">Optimisation des<br>Services Publics Togo</h1>
+                <p style="letter-spacing: 5px; color: var(--secondary); font-weight: 600;">TRANSFORMATION DIGITALE & DATA-DRIVEN</p>
+                <div style="margin-top: 40px; font-weight: 400;">
+                    <p>Présenté par <strong>KEGDIGOMA Ditoma</strong></p>
+                    <p>Data Analyst | Janvier 2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Contexte -->
+    <section class="slide">
+        <div class="content">
+            <h2>01. Contexte & Problématique</h2>
+            <div class="grid">
+                <div>
+                    <p>Le Togo s'engage dans une modernisation accélérée de son administration. La délivrance des documents officiels (CNI, Passeports) est le premier point de contact avec le citoyen.</p>
+                    <ul>
+                        <li>Forte hétérogénéité des délais entre Lomé et les régions.</li>
+                        <li>Saturation des centres urbains (Région Maritime).</li>
+                        <li>Besoin d'une vision 360° pour piloter l'efficacité.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 style="margin-bottom: 20px; color: var(--accent);">L'Enjeu</h3>
+                    <p style="font-size: 1.1rem;">"Passer d'une gestion administrative réactive à un pilotage stratégique fondé sur la donnée pour garantir un service équitable partout au Togo."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Méthodologie -->
+    <section class="slide">
+        <div class="content">
+            <h2>02. Démarche Méthodologique</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4 style="color: var(--secondary); margin-bottom: 10px;">Pipeline de Données</h4>
+                    <ul>
+                        <li><strong>Audit & EDA</strong> : Exploration de 8 jeux de données brutes.</li>
+                        <li><strong>Cleaning</strong> : Scripts Python pour la normalisation GPS et temporelle.</li>
+                        <li><strong>Modélisation</strong> : Architecture Star Schema dans PostgreSQL.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4 style="color: var(--secondary); margin-bottom: 10px;">Technologies Utilisées</h4>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+                        <span style="background: #333; padding: 8px 15px; border-radius: 20px;">Python (Pandas)</span>
+                        <span style="background: #333; padding: 8px 15px; border-radius: 20px;">SQL (PostgreSQL)</span>
+                        <span style="background: #333; padding: 8px 15px; border-radius: 20px;">Streamlit</span>
+                        <span style="background: #333; padding: 8px 15px; border-radius: 20px;">Power BI / Plotly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Analyse Exploratoire -->
+    <section class="slide">
+        <div class="content">
+            <h2>03. Insights de l'Exploration (EDA)</h2>
+            <div class="grid">
+                <div>
+                    <p>L'exploration initiale a révélé des disparités géographiques et des corrélations fortes entre l'équipement d'un centre et sa capacité de traitement.</p>
+                    <ul>
+                        <li><strong>Concentration</strong> : 62% du volume est centralisé sur 3 préfectures majeures.</li>
+                        <li><strong>Qualité</strong> : Le taux de rejet est corrélé au type de document (Complexité).</li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- Utilisation d'un visuel EDA réel -->
+                    <img src="../01_Exploration_des_Donnees_EDA/EDA_visualizations/EDA_demande_services_public_cell35_img0.png" class="viz-img">
+                    <p style="font-size: 0.8rem; text-align: center; margin-top: 10px;">Distribution spatiale de la demande (Données d'exploration)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: KPIs -->
+    <section class="slide">
+        <div class="content">
+            <h2>04. Les 8 Indicateurs de Performance</h2>
+            <div class="kpi-box">
+                <div class="kpi-item"><div class="kpi-value">4.2j</div><div class="kpi-label">DMT Moyen</div></div>
+                <div class="kpi-item"><div class="kpi-value">82%</div><div class="kpi-label">Absorption</div></div>
+                <div class="kpi-item"><div class="kpi-value">12.5%</div><div class="kpi-label">Taux de Rejet</div></div>
+                <div class="kpi-item"><div class="kpi-value">92%</div><div class="kpi-label">Couverture</div></div>
+                <div class="kpi-item"><div class="kpi-value">1.4</div><div class="kpi-label">Ratio Équité</div></div>
+                <div class="kpi-item"><div class="kpi-value">78%</div><div class="kpi-label">Saturation</div></div>
+            </div>
+            <p style="margin-top: 30px; text-align: center;">Ces indicateurs permettent de monitorer la <strong>Rapidité</strong>, la <strong>Qualité</strong> et la <strong>Justice Territoriale</strong>.</p>
+        </div>
+    </section>
+
+    <!-- Slide 6: Dashboard -->
+    <section class="slide">
+        <div class="content">
+            <h2>05. Outil de Pilotage Stratégique</h2>
+            <div class="grid" style="grid-template-columns: 0.8fr 1.2fr;">
+                <div>
+                    <h4 style="color: var(--secondary);">Dashboard Interactif</h4>
+                    <p>Une interface Streamlit en 3 niveaux :</p>
+                    <ul>
+                        <li><strong>Vue Executive</strong> : Vision macro pour les décideurs.</li>
+                        <li><strong>Vue Opérationnelle</strong> : Pilotage RH et saturation des centres.</li>
+                        <li><strong>Vue Territoriale</strong> : Carte interactive Mapbox pour l'équité.</li>
+                    </ul>
+                </div>
+                <div>
+                     <div class="card" style="border: 2px dashed #666; height: 350px; display: flex; justify-content: center; align-items: center; text-align: center;">
+                        <p>Visualisation de la Carte du Togo<br>avec distribution GPS des centres<br><br><span style="color: var(--secondary)">[Interface Interactive Mapbox Live]</span></p>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Recommandations -->
+    <section class="slide">
+        <div class="content">
+            <h2>06. Plan d'Action & Recommandations</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3 style="color: var(--accent); margin-bottom: 20px;">Optimisation Flux</h3>
+                    <ul>
+                        <li><strong>Simplification Documentaire</strong> : Réduire le taux de rejet de la Nationalité de 50%.</li>
+                        <li><strong>Redéploiement Agile</strong> : Transférer du personnel vers la région Maritime saturée.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--accent); margin-bottom: 20px;">Impact Social</h3>
+                    <ul>
+                        <li><strong>Bus Administratifs</strong> : Déploiement d'unités mobiles dans les zones identifiées comme prioritaires.</li>
+                        <li><strong>Auto-suivi usager</strong> : Portail numérique pour réduire les duplicata inutiles.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Conclusion -->
+    <section class="slide">
+        <img src="../togo_presentation_cover_1768868268827.png" class="background-image" style="opacity: 0.2;">
+        <div class="content" style="text-align: center;">
+            <h1 style="color: white">Vers un Togo<br><span style="color: var(--secondary)">100% Digital</span></h1>
+            <p style="margin-top: 40px; font-size: 2rem;">Merci pour votre attention !</p>
+            <div style="margin-top: 60px; border-top: 2px solid var(--primary); padding-top: 30px; display: inline-block;">
+                <p><strong>KEGDIGOMA Ditoma</strong></p>
+                <p>Data & Business Intelligence</p>
+                <p>Janvier 2026</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

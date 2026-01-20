@@ -6,7 +6,7 @@ Le tableau de bord Streamlit pour l'optimisation des services publics au Togo a 
 
 ---
 
-## 📋 Fichiers Créés
+##  Fichiers Créés
 
 ### 1. **app_streamlit.py** (380 lignes)
 Application Streamlit complète avec 4 vues et 8 KPI implémentés.
@@ -23,14 +23,14 @@ Script de validation et test complet.
 
 **Résultats:**
 ```
-✅ TOUS LES TESTS PASSED
+TOUS LES TESTS PASSED
 
 Étapes validées:
-  ✓ Connexion PostgreSQL OK
-  ✓ Schéma 'dw' et 7 tables trouvés
-  ✓ 600 lignes de données chargées
-  ✓ 8 KPI queries exécutées avec succès
-  ✓ Toutes les métriques extraites correctement
+  Connexion PostgreSQL OK
+  Schéma 'dw' et 7 tables trouvés
+  600 lignes de données chargées
+  8 KPI queries exécutées avec succès
+  Toutes les métriques extraites correctement
 ```
 
 ### 3. **run_dashboard.bat**
@@ -52,7 +52,7 @@ Documentation complète d'utilisation.
 
 ---
 
-## 🎯 8 KPI Implémentés
+## 8 KPI Implémentés
 
 | # | KPI | Statut | Query | Résultats |
 |---|-----|--------|-------|-----------|
@@ -67,14 +67,14 @@ Documentation complète d'utilisation.
 
 ---
 
-## 📊 4 Vues Disponibles
+##     4 Vues Disponibles
 
-### 1️⃣ Vue Accueil
+### 1 Vue Accueil
 - KPI synthétiques globaux (4 cartes metrics)
 - Graphiques: DMT par région, Rejet par type document
 - Redirection vers autres vues
 
-### 2️⃣ Vue Executive
+### 2 Vue Executive
 - KPI de haut niveau pour la direction
 - Filtres: Région, Préfecture
 - Graphiques:
@@ -82,13 +82,13 @@ Documentation complète d'utilisation.
   - Couverture territoriale
 - Dashboard pour pilotage stratégique
 
-### 3️⃣ Vue Opérationnelle
+### 3  Vue Opérationnelle
 - Performance détaillée par région
 - Sélection métrique: Délai, Absorption, Saturation, Charge
 - Graphiques en barres avec annotations
 - Tableaux de données exportables
 
-### 4️⃣ Vue Territoriale
+### 4  Vue Territoriale
 - Analyse géographique
 - 4 analyses disponibles:
   - Couverture territoriale
@@ -98,7 +98,7 @@ Documentation complète d'utilisation.
 
 ---
 
-## 🔧 Architecture Technique
+## Architecture Technique
 
 ### Connexion Base de Données
 ```python
@@ -135,7 +135,7 @@ Connecteur: psycopg2 2.9.9
 
 ---
 
-## 🚀 Lancement du Dashboard
+## Lancement du Dashboard
 
 ### Option 1: Windows (Recommandé)
 ```bash
@@ -160,28 +160,28 @@ Vérifie toutes les connexions et requêtes avant lancement.
 
 ---
 
-## 📈 Fonctionnalités Clés
+## Fonctionnalités Clés
 
-### ✨ Filtres Dynamiques
+### Filtres Dynamiques
 - **Région:** 5 régions (Centrale, Kara, Maritime, Plateaux, Savanes)
 - **Préfecture:** Charge dynamiquement selon la région
 - **Type Document:** 6 types documentaires
 - **Métrique:** Sélection contextuelle par vue
 
-### 📊 Visualisations
+### Visualisations
 - **Barres:** Comparaisons inter-régions
 - **Lignes:** Tendances temporelles
 - **Cartes de Chaleur:** Distribution spatiale
 - **Métriques:** KPI cards avec seuils de couleur
 - **Tableaux:** Export données brutes
 
-### ⚡ Performance
+### Performance
 - Cache Streamlit: TTL 3600 secondes
 - Connexion PostgreSQL en pool
 - Requêtes SQL optimisées avec GROUP BY
 - Pagination pour gros volumes
 
-### 🎨 UX/UI
+### UX/UI
 - Design responsive (large/medium/small screens)
 - 4 palette couleurs (Vert/Orange/Rouge/Bleu)
 - Status badges emoji (🟢🟡🔴)
@@ -190,12 +190,12 @@ Vérifie toutes les connexions et requêtes avant lancement.
 
 ---
 
-## ✔️ Tests & Validation
+## Tests & Validation
 
 ### Résultats Validation
 ```
-✓ Connexion PostgreSQL: OK
-✓ Schéma 'dw': EXISTS
+Connexion PostgreSQL: OK
+Schéma 'dw': EXISTS
 ✓ Tables existantes: 7
 ✓ Données chargées: 600 demandes
 ✓ KPI-001: 22.72 jours ✅
@@ -216,11 +216,11 @@ Vérifie toutes les connexions et requêtes avant lancement.
 
 ---
 
-## ⚠️ Observations Importantes
+## Observations Importantes
 
 ### KPI-005: Taux de Rejet à 100%
-**Observation:** Le taux de rejet global est anormalement élevé (100%).
-**Investigation requise:**
+Observation: Le taux de rejet global est anormalement élevé (100%).
+Investigation requise:
 - Vérifier la colonne `statut_demande` dans fact_demandes
 - Analyser la distribution des statuts (Validée vs Rejetée vs En Attente)
 - Possibilité: données d'exemple ou test
@@ -274,7 +274,7 @@ Vérifie toutes les connexions et requêtes avant lancement.
 
 ---
 
-## 📚 Documentation Annexe
+##  Documentation Annexe
 
 - **KPI Details:** [KPI_Definition.md](../03_KPI_et_Dashboard/KPI_Definition.md)
 - **Entité-Relation:** dw.fact_demandes + 6 dimensions
@@ -282,7 +282,7 @@ Vérifie toutes les connexions et requêtes avant lancement.
 
 ---
 
-## 🎓 Résumé Exécutif
+## Résumé Exécutif
 
 **Deliverable:** Application de pilotage complète pour services publics Togo
 

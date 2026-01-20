@@ -1,6 +1,16 @@
-# 🇸🇳 Optimisation des Services Publics au Togo
+# 🇹🇬 Optimisation des Services Publics au Togo
 
 Projet d'analyse de données et dashboard interactif pour l'optimisation du réseau de délivrance des documents officiels (CNI, Passeports, Actes de Naissance).
+
+## 📁 Livrables Inclus
+Ce repository contient tous les éléments requis :
+- **Scripts & Notebooks EDA** : Analyses initiales dans `01_Exploration_des_Donnees_EDA`.
+- **Visualisations EDA** : Export des graphiques des notebooks dans `01_Exploration_des_Donnees_EDA/EDA_visualizations`.
+- **Scripts de Nettoyage** : Pipeline automatisé dans `02_Nettoyage_et_Preparation_des_Donnees`.
+- **Tableau des KPI** : Définitions complètes dans `03_KPI_et_Dashboard/KPI_Definition.md`.
+- **Application Dashboard** : Interface interactive dans `04_Dashboard`.
+- **Rapport de Synthèse** : Analyse stratégique dans `05_Restitution_et_Storytelling/Rapport_Synthese.md`.
+- **Support de Présentation** : Storytelling dans `05_Restitution_et_Storytelling/Presentation_Storytelling.md`.
 
 ## 🚀 Structure du Projet
 
